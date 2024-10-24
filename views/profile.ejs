@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head'); %>
+  </head>
+  <body>
+    <header><%- include('./partials/navbar'); %></header>
+
+    <div class="changepassword my-4">
+      <div class="mx-4">Change your password here <%= user.username %></div>
+
+      <form action="/api/user/changePassword" method="POST" id="form-chngpass">
+        <input type="hidden" name="_id" value="<%= user._id %>" id="objID" />
+
+        <div class="row mx-3 my-2 g-3 align-items-center">
+          <div class="col-auto">
+            <label for="inputPassword6" class="col-form-label"
+              >Old Password</label
+            >
+          </div>
+          <div class="col-auto">
+            <input
+              type="text"
+              name="oldpassword"
+              id="oldPassword"
+              class="form-control"
+              aria-describedby="passwordHelpInline"
+            />
+          </div>
+        </div>
+
+        <div class="row mx-3 my-2 g-3 align-items-center">
+          <div class="col-auto">
+            <label for="inputPassword6" class="col-form-label">
+              New Password</label
+            >
+          </div>
+          <div class="col-auto">
+            <input
+              type="text"
+              name="newpassword"
+              id="newPassword"
+              class="form-control"
+              aria-describedby="passwordHelpInline"
+            />
+          </div>
+          <div class="col-auto">
+            <span id="passwordHelpInline" class="form-text">
+              Must be 8-20 characters long , one uppercase , one lowercase and
+              one number.
+            </span>
+          </div>
+        </div>
+
+        <div class="row mx-3 my-2 g-3 align-items-center">
+          <div class="col-auto">
+            <label for="inputPassword6" class="col-form-label"
+              >Confirm Password</label
+            >
+          </div>
+          <div class="col-auto">
+            <input
+              type="text"
+              name="validatepassword"
+              id="validatepassword"
+              class="form-control"
+              aria-describedby="passwordHelpInline"
+            />
+          </div>
+        </div>
+        <!-- <div class="newpassword">
+          <input
+            type="text"
+            name="newpassword"
+            id="newPassword"
+            placeholder="New Password"
+          />
+          <input
+            type="text"
+            name="validatepassword"
+            id="validatepassword"
+            placeholder="Confirm New Password"
+          />
+        </div> -->
+        <div class="my-5 mx-3 col-auto chngpass">
+          <button type="submit" id="chngpass" class="btn btn-primary mb-3">
+            Change Password
+          </button>
+        </div>
+      </form>
+      <% if(user.address) { %>
+      <div class="my-5 mx-3 col-auto chngpass">
+        <a href="/api/user/address">
+          <button type="submit" id="chngpass" class="btn btn-primary mb-3">
+            Edit Address
+          </button>
+        </a>
+      </div>
+      <div class="mx-4 my-4">
+        <h3>Your Address</h3>
+
+        <p><strong>Street:</strong> <%= user.address.street %></p>
+        <p><strong>City:</strong> <%= user.address.city %></p>
+        <p><strong>State:</strong> <%= user.address.state %></p>
+        <p><strong>Postal Code:</strong> <%= user.address.postalCode %></p>
+        <p><strong>Country:</strong> <%= user.address.country %></p>
+      </div>
+      <% } else { %>
+      <div class="my-5 mx-3 col-auto chngpass">
+        <a href="/api/user/address">
+          <button type="submit" id="chngpass" class="btn btn-primary mb-3">
+            Add Address
+          </button>
+        </a>
+      </div>
+      <% } %>
+    </div>
+    <footer><%- include('./partials/footer'); %></footer>
+  </body>
+
+  <script>
+    document
+      .getElementById("form-chngpass")
+      .addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const old = document.getElementById("oldPassword").value;
+        const newpass = document.getElementById("newPassword").value;
+        const confirm = document.getElementById("validatepassword").value;
+        const _id = document.getElementById("objID").value;
+
+        // Example usage
+
+        if (newpass !== confirm) {
+          alert("New Password do not match");
+          return;
+        }
+
+        try {
+          const response = await fetch("/api/user/changepassword", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              oldpassword: old,
+              newpassword: newpass,
+              _id: _id,
+            }),
+          });
+          if (!response.ok) {
+            const errorData = await response.json(); // Get error message from the server
+            throw new Error(errorData.message || "Error updating password");
+          }
+          const data = await response.json();
+          alert(data.message); // Success message from the server
+          console.log(data);
+        } catch (error) {
+          // Handle client-side or fetch-related errors
+          console.error(error);
+          alert(`Failed to update password: ${error.message}`);
+        }
+      });
+  </script>
+</html>

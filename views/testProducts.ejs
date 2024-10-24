@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head'); %>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd">
+        <div class="container-fluid">
+          <a class="nav-link active" aria-current="page" href="/api/auth/login"
+            >Login</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container mt-5">
+        <% if(req.user) {%>
+        <main>Welcome <%= req.user.username %> !</main>
+        <% } %>
+        <h1>Products</h1>
+
+        <div class="row" id="product-list">
+          <% products.forEach(product => { %>
+          <div class="col-md-3">
+            <div class="card mb-2">
+              <img
+                src="<%= product.image %>"
+                class="card-img-top"
+                alt="<%= product.name %>"
+              />
+              <div class="card-body">
+                <h5 class="card-title"><%= product.name %></h5>
+                <h5 class="card-title"><%= product.price %></h5>
+
+                <a
+                  href="<%= product.detailsUrl %>"
+                  class="btn btn-outline-primary"
+                  >View Details</a
+                >
+                <button
+                  onclick="addToCart('<%= product._id.toString() %>', 1)"
+                  class="btn btn-outline-primary"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+        <button id="load-more" type="button" class="btn btn-secondary">
+          Load More
+        </button>
+      </div>
+    </main>
+
+    <script>
+      let currPage = 1;
+
+      document.getElementById("load-more").addEventListener("click", () => {
+        console.log("button clicked");
+        currPage++;
+        fetch(`/api/products/nextPage?page=${currPage}`)
+          .then((response) => response.json())
+          .then((products) => {
+            const productList = document.getElementById("product-list");
+            console.log(productList);
+            products.forEach((product) => {
+              const productDiv = document.createElement("div");
+              productDiv.classList.add("col-md-4");
+              productDiv.innerHTML = `
+                <div class="card mb-4">
+                  <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                  <div class="card-body">
+                    <h5 class="card-title">${product.name}</h5>
+                    <a href="${product.detailsUrl}" class="btn btn-primary">View Details</a>
+                  </div>
+                </div>
+              `;
+              productList.appendChild(productDiv);
+            });
+
+            if (products.length < 5) {
+              document.getElementById("load-more").style.display = "none";
+            }
+          })
+          .catch((err) => console.log(err));
+      });
+
+      async function addToCart(productId, quantity) {
+        try {
+          const token = localStorage.getItem("token");
+
+          if (!token) {
+            window.location.href = "/api/auth/login";
+            return;
+          }
+
+          const response = await fetch("/api/cart/addToCart", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ productId, quantity }),
+          });
+
+          const cartData = await response.json();
+          if (response.ok) {
+            alert("Item added to cart!");
+            console.log(cartData); // You can update the UI to show the cart items
+          } else {
+            alert("Failed to add item to cart");
+            console.error(cartData.message);
+          }
+        } catch (error) {
+          console.error("Error adding to cart:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

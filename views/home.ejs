@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head'); %>
+    <style>
+      /* Make all cards the same size */
+      .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      /* Hover effects */
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Uniform image size */
+      /* Uniform image size */
+      .card-img-top {
+        max-height: 200px; /* Set a maximum height for the images */
+        width: 100%; /* Ensure the images fill the width of the card */
+        object-fit: contain; /* Ensure images are fully visible, but don't stretch */
+        border-bottom: 1px solid #e5e5e5; /* Optional: Add a border for a clean separation */
+      }
+
+      /* Card title and price styling */
+      .card-title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .card-price {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #28a745;
+        text-align: center;
+        margin-bottom: 15px;
+      }
+
+      /* Ensure buttons fill the width of the card and are consistent */
+      .btn-outline-primary {
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      /* Equal card height by ensuring .card-body stretches to fill available space */
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      /* Container spacing for the product list */
+      .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      /* Set uniform size for each card column */
+      .col-md-3 {
+        flex: 0 0 25%; /* 4 cards per row */
+        max-width: 25%;
+      }
+
+      @media (max-width: 768px) {
+        .col-md-3 {
+          flex: 0 0 50%; /* 2 cards per row on smaller screens */
+          max-width: 50%;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .col-md-3 {
+          flex: 0 0 100%; /* 1 card per row on mobile */
+          max-width: 100%;
+        }
+      }
+
+      /* Load more button styling */
+      #load-more {
+        margin-top: 30px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header><%- include('./partials/navbar'); %></header>
+
+    <main>
+      <div class="container mt-5">
+        <% if(req.user) {%>
+        <main>Welcome <%= req.user.username %> !</main>
+        <% } %>
+        <h1 class="text-center mb-4">Products</h1>
+
+        <div class="product-grid" id="product-list">
+          <% products.forEach(product => { %>
+          <div class="col-md-3 col-sm-6 mb-4">
+            <div class="card">
+              <img
+                src="<%= product.image %>"
+                class="card-img-top"
+                alt="<%= product.name %>"
+              />
+
+              <div class="card-body">
+                <h5 class="card-title"><%= product.name %></h5>
+                <h5 class="card-price">$<%= product.price %></h5>
+
+                <a
+                  href="<%= product.detailsUrl %>"
+                  class="btn btn-outline-primary"
+                >
+                  View Details
+                </a>
+                <button
+                  id="add-to-cart-<%= product._id.toString() %>"
+                  data-quantity="0"
+                  onclick="addToCart('<%= product._id.toString() %>', 1)"
+                  class="btn btn-outline-primary"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+
+        <button id="load-more" type="button" class="btn btn-secondary">
+          Load More
+        </button>
+      </div>
+    </main>
+
+    <script>
+      let currPage = 1;
+
+      async function loadProducts(page) {
+        try {
+          const response = await fetch(
+            `/api/auth/loadMoreProduct?page=${page}`
+          );
+          const products = await response.json();
+          const productList = document.getElementById("product-list");
+
+          products.forEach((product) => {
+            const productDiv = document.createElement("div");
+            productDiv.classList.add("col-md-3", "col-sm-6", "mb-4");
+            productDiv.innerHTML = `
+              <div class="card">
+                <img
+                  src="${product.image}"
+                  class="card-img-top"
+                  alt="${product.name}"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">${product.name}</h5>
+                  <h5 class="card-price">$${product.price}</h5>
+
+                  <a
+                    href="${product.detailsUrl}"
+                    class="btn btn-outline-primary"
+                  >
+                    View Details
+                  </a>
+                 <button
+                    id="add-to-cart-${product._id.toString()}"
+                    
+                    onclick="addToCart('${product._id.toString()}', 1)"
+                    class="btn btn-outline-primary"
+                  
+                  >
+                   Add to Cart
+                  </button>
+                </div>
+              </div>
+            `;
+            productList.appendChild(productDiv);
+          });
+
+          if (products.length < 5) {
+            document.getElementById("load-more").style.display = "none";
+          }
+        } catch (error) {
+          console.error("Error loading products", error);
+        }
+      }
+
+      document.getElementById("load-more").addEventListener("click", () => {
+        currPage++;
+        loadProducts(currPage);
+      });
+
+      async function addToCart(productId, quantity) {
+        try {
+          const button = document.getElementById(`add-to-cart-${productId}`);
+          const token = localStorage.getItem("token");
+          // let currentQuantity = parseInt(
+          //   button.getAttribute("data-quantity"),
+          //   10
+          // );
+          // currentQuantity += quantity;
+
+          if (!token) {
+            window.location.href = "/api/auth/login";
+            return;
+          }
+
+          const response = await fetch("/api/cart/addToCart", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ productId, quantity }),
+          });
+
+          const cartData = await response.json();
+          if (response.ok) {
+            alert("Item added to cart!");
+
+            console.log(cartData); // You can update the UI to show the cart items
+          } else {
+            alert("Failed to add item to cart" + cartData.message);
+            console.error(cartData.message);
+          }
+        } catch (error) {
+          console.error("Error adding to cart:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

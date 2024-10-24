@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head'); %>
+  </head>
+  <body>
+    <header><%- include('./partials/navbar'); %></header>
+
+    <main>
+      <div class="container my-5">
+        <div class="form my-5">
+          <form
+            action="/api/admin/updateProduct/<%= product._id %>"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <input
+              type="hidden"
+              class="form-control"
+              id="productId"
+              name="productId"
+              value="<%= product._id %>"
+            />
+
+            <div class="form-group">
+              <label for="PName">Product Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="PName"
+                name="PName"
+                value="<%= product.name %>"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="PDesc">Product Description</label>
+              <input
+                type="text"
+                class="form-control"
+                id="PDesc"
+                name="PDesc"
+                value="<%= product.detailsUrl %>"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="PPrice">Product Price</label>
+              <input
+                type="number"
+                class="form-control"
+                id="PPrice"
+                name="PPrice"
+                value="<%= product.price %>"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="PQuantity">Product Quantity</label>
+              <input
+                type="number"
+                class="form-control"
+                id="PQuantity"
+                name="PQuantity"
+                value="<%= product.stock %>"
+                required
+              />
+            </div>
+            <div class="form-group my-4">
+              <label for="image"> Product Image</label>
+              <input
+                type="file"
+                class="form-control"
+                id="image"
+                name="PImage"
+                accept="image/*"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary my-5">
+              Update Product
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

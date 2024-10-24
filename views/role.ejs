@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head'); %>
+  </head>
+  <body>
+    <header><%- include('./partials/navbar'); %></header>
+
+    <form action="" id="user-form">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <select id="role" required>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button type="submit">Create User</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("user-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+          const role = document.getElementById("role").value;
+          const token = localStorage.getItem("token");
+        });
+    </script>
+  </body>
+</html>

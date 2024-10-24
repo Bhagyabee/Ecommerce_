@@ -1,0 +1,149 @@
+[
+  {
+      "id": 101,
+      "name": "Product 1",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/1",
+      "price": 350
+  },
+  {
+      "id": 102,
+      "name": "Product 2",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/2",
+      "price": 400
+  },
+  {
+      "id": 103,
+      "name": "Product 3",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/3",
+      "price": 450
+  },
+  {
+      "id": 104,
+      "name": "Product 4",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/4",
+      "price": 500
+  },
+  {
+      "id": 105,
+      "name": "Product 5",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/5",
+      "price": 550
+  },
+  {
+      "id": 106,
+      "name": "Product 6",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/6",
+      "price": 600
+  },
+  {
+      "id": 107,
+      "name": "Product 7",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/7",
+      "price": 350
+  },
+  {
+      "id": 108,
+      "name": "Product 8",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/8",
+      "price": 400
+  },
+  {
+      "id": 109,
+      "name": "Product 9",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/9",
+      "price": 450
+  },
+  {
+      "id": 110,
+      "name": "Product 10",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/10",
+      "price": 500
+  },
+  {
+      "id": 111,
+      "name": "Product 11",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/11",
+      "price": 550
+  },
+  {
+      "id": 112,
+      "name": "Product 12",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/12",
+      "price": 600
+  },
+  {
+      "id": 113,
+      "name": "Product 13",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/13",
+      "price": 350
+  },
+  {
+      "id": 114,
+      "name": "Product 14",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/14",
+      "price": 400
+  },
+  {
+      "id": 115,
+      "name": "Product 15",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/15",
+      "price": 450
+  },
+  {
+      "id": 116,
+      "name": "Product 16",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/16",
+      "price": 500
+  },
+  {
+      "id": 117,
+      "name": "Product 17",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/17",
+      "price": 550
+  },
+  {
+      "id": 118,
+      "name": "Product 18",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/18",
+      "price": 600
+  },
+  {
+      "id": 119,
+      "name": "Product 19",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/19",
+      "price": 350
+  },
+  {
+      "id": 120,
+      "name": "Product 20",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/20",
+      "price": 400
+  },
+  {
+      "id": 121,
+      "name": "Product 21",
+      "image": "https://shop.mango.com/assets/rcs/pics/static/T7/fotos/S/77050261_44.jpg?imwidth=640&imdensity=1&ts=1714125889941",
+      "detailsUrl": "/products/21",
+      "price": 450
+  }
+]

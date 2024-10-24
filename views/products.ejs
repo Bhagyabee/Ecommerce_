@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head'); %>
+  </head>
+  <body>
+    <header><%- include('./partials/navbar'); %></header>
+
+    <main>
+      <div class="container mt-5">
+        <main>Welcome <%= username %> !</main>
+        <h1>Products</h1>
+        <div class="row" id="product-list">
+          <% products.forEach(product => { %>
+          <div class="col-md-4">
+            <div class="card mb-4">
+              <img
+                src="<%= product.image %>"
+                class="card-img-top"
+                alt="<%= product.name %>"
+              />
+              <div class="card-body">
+                <h5 class="card-title"><%= product.name %></h5>
+                <a href="<%= product.detailsUrl %>" class="btn btn-primary"
+                  >View Details</a
+                >
+                <a href="/api/product/addToCart" class="btn btn-primary"
+                  >Add to Cart</a
+                >
+              </div>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+        <button id="load-more" type="button" class="btn btn-secondary">
+          Load More
+        </button>
+      </div>
+    </main>
+
+    <script>
+      let currPage = 1;
+
+      document.getElementById("load-more").addEventListener("click", () => {
+        console.log("button clicked");
+        currPage++;
+        fetch(`/api/products/nextPage?page=${currPage}`)
+          .then((response) => response.json())
+          .then((products) => {
+            const productList = document.getElementById("product-list");
+            console.log(productList);
+            products.forEach((product) => {
+              const productDiv = document.createElement("div");
+              productDiv.classList.add("col-md-4");
+              productDiv.innerHTML = `
+                <div class="card mb-4">
+                  <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                  <div class="card-body">
+                    <h5 class="card-title">${product.name}</h5>
+                    <a href="${product.detailsUrl}" class="btn btn-primary">View Details</a>
+                  </div>
+                </div>
+              `;
+              productList.appendChild(productDiv);
+            });
+
+            if (products.length < 5) {
+              document.getElementById("load-more").style.display = "none";
+            }
+          })
+          .catch((err) => console.log(err));
+      });
+    </script>
+  </body>
+</html>
